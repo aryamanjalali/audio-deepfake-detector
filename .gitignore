@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb_checkpoints
+
+# Data
+data/raw/*
+data/processed/*
+data/simulated/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/simulated/.gitkeep
+
+# Models & Results
+experiments/results/*
+*.pth
+*.pt
+*.ckpt
+!experiments/results/.gitkeep
+
+# Logs
+*.log
+wandb/
+tensorboard/
+runs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Temp files
+tmp/
+temp/
+*.tmp

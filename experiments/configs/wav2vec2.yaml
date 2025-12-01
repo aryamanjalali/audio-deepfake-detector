@@ -1,0 +1,87 @@
+# wav2vec2 model configuration (pretrained embeddings)
+model_type: wav2vec2
+model_name: wav2vec2_finetuned
+
+# Data configuration
+data:
+  asvspoof_path: data/raw/ASVspoof2019/LA
+  wavefake_path: data/raw/WaveFake
+  fakeavceleb_path: data/raw/FakeAVCeleb
+  
+  use_asvspoof: true
+  use_wavefake: true
+  use_fakeavceleb: true
+  
+  max_duration: 4.0  # Keep shorter for memory efficiency with wav2vec2
+  balance_classes: true
+  
+  batch_size: 16  # Smaller batch size for wav2vec2 (memory intensive)
+  num_workers: 4
+
+# Audio preprocessing (wav2vec2 uses raw audio, not spectrograms)
+audio:
+  target_sample_rate: 16000  # wav2vec2 standard
+  # No mel spectrogram settings needed for wav2vec2
+
+# Model architecture
+model:
+  wav2vec2_model: facebook/wav2vec2-base  # Pretrained model
+  num_classes: 2
+  dropout: 0.3
+  
+  # Fine-tuning strategy
+  freeze_feature_extractor: true  # Keep CNN feature extractor frozen
+  freeze_encoder: false  # Fine-tune transformer layers
+  num_frozen_layers: 6  # Freeze first 6 of 12 layers (fine-tune last 6)
+  
+  # Advanced: weighted layer sum
+  use_weighted_layer_sum: false  # Combine all layers with learned weights
+
+# Training configuration
+training:
+  num_epochs: 30  # Fewer epochs (pretrained model)
+  learning_rate: 0.00005  # Lower LR for fine-tuning
+  weight_decay: 0.0001
+  optimizer: adamw  # AdamW better for transformers
+  
+  # Learning rate scheduler
+  use_scheduler: true
+  scheduler_type: cosine  # Cosine annealing for fine-tuning
+  warmup_epochs: 3  # Warmup period
+  
+  # Early stopping
+  early_stopping: true
+  early_stopping_patience: 8
+  
+  # Loss function
+  loss_fn: cross_entropy
+  
+  # Gradient clipping (important for transformers)
+  use_gradient_clipping: true
+  max_grad_norm: 1.0
+  
+  # Mixed precision training (faster on CUDA)
+  use_amp: true
+
+# Validation
+validation:
+  val_interval: 1
+  save_best_only: true
+
+# Checkpointing
+checkpoint:
+  save_dir: experiments/results/wav2vec2
+  save_interval: 3
+
+# Logging
+logging:
+  use_tensorboard: true
+  use_wandb: false
+  wandb_project: audio-deepfake-detection
+  log_interval: 10
+
+# Reproducibility
+seed: 42
+
+# Device
+device: auto
