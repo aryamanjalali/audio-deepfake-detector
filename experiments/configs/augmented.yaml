@@ -1,8 +1,6 @@
-# Augmented model configuration (data augmentation for robustness)
 model_type: augmented
 model_name: augmented_cnn
 
-# Data configuration (same as baseline)
 data:
   asvspoof_path: data/raw/ASVspoof2019/LA
   wavefake_path: data/raw/WaveFake
@@ -18,7 +16,6 @@ data:
   batch_size: 32
   num_workers: 4
 
-# Audio preprocessing
 audio:
   target_sample_rate: 16000
   n_mels: 128
@@ -28,12 +25,10 @@ audio:
   f_max: 8000.0
   normalize: true
 
-# Data augmentation (KEY DIFFERENCE)
 augmentation:
   enabled: true
   augmentation_prob: 0.5  # Probability of applying augmentation
   
-  # Codec augmentation
   codec_augmentation: true
   codecs: ['aac', 'opus', 'mp3']
   bitrates:
@@ -41,20 +36,17 @@ augmentation:
     opus: [64, 32, 24]
     mp3: [128, 64, 32]
   
-  # Spectrogram-level augmentation (fallback)
   spec_augmentation: true
   freq_mask_prob: 0.3
   time_mask_prob: 0.3
   noise_prob: 0.3
 
-# Model architecture (same as baseline)
 model:
   input_channels: 1
   n_mels: 128
   num_classes: 2
   dropout: 0.3
 
-# Training configuration
 training:
   num_epochs: 50
   learning_rate: 0.001
@@ -74,25 +66,20 @@ training:
   use_mixup: false
   mixup_alpha: 0.2
 
-# Validation
 validation:
   val_interval: 1
   save_best_only: true
 
-# Checkpointing
 checkpoint:
   save_dir: experiments/results/augmented
   save_interval: 5
 
-# Logging
 logging:
   use_tensorboard: true
   use_wandb: false
   wandb_project: audio-deepfake-detection
   log_interval: 10
 
-# Reproducibility
 seed: 42
 
-# Device
 device: auto

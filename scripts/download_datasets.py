@@ -1,21 +1,15 @@
-"""
+utf-8"""
 Download scripts for datasets.
-
 Run this file to download all three datasets:
 - ASVspoof 2019 LA
 - WaveFake  
 - FakeAVCeleb
 """
-
 from pathlib import Path
 import sys
-
-
-
 def download_asvspoof():
     """
     Download ASVspoof 2019 LA dataset.
-    
     Note: Requires registration at https://datashare.ed.ac.uk/handle/10283/3336
     This function provides instructions for manual download.
     """
@@ -36,12 +30,9 @@ def download_asvspoof():
     print("  ├── ASVspoof2019_LA_eval/")
     print("  └── ASVspoof2019_LA_cm_protocols/")
     print("="*60)
-
-
 def download_wavefake():
     """
     Download WaveFake dataset.
-    
     Note: WaveFake is hosted on Zenodo
     """
     print("\n" + "="*60)
@@ -61,12 +52,9 @@ def download_wavefake():
     print("  └── real_audio/")
     print("      └── ljspeech/")
     print("="*60)
-
-
 def download_fakeavceleb():
     """
     Download FakeAVCeleb dataset.
-    
     Note: FakeAVCeleb requires registration
     """
     print("\n" + "="*60)
@@ -84,8 +72,6 @@ def download_fakeavceleb():
     print("  ├── FakeVideo-FakeAudio/")
     print("  └── RealVideo-FakeAudio/")
     print("="*60)
-
-
 def main():
     """Main download function."""
     print("="*60)
@@ -93,16 +79,11 @@ def main():
     print("="*60)
     print("\nThis script will guide you through downloading the datasets.")
     print("Note: All datasets require manual download due to licensing.")
-    
-    # Create data directories
     data_dir = Path("data/raw")
     data_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Download instructions for each dataset
     download_asvspoof()
     download_wavefake()
     download_fakeavceleb()
-    
     print("\n" + "="*60)
     print("Download Instructions Complete")
     print("="*60)
@@ -111,7 +92,5 @@ def main():
     print("\nThen proceed to training:")
     print("  python src/training/train.py --config experiments/configs/baseline.yaml")
     print("="*60)
-
-
 if __name__ == "__main__":
     main()

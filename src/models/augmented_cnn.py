@@ -1,9 +1,7 @@
-"""
+utf-8"""
 Data-Augmented CNN Model
-
 Same architecture as baseline but with on-the-fly codec augmentation during training.
 """
-
 import torch
 import torch.nn as nn
 from .baseline_cnn import BaselineCNN, LightCNN
@@ -11,15 +9,11 @@ import random
 import tempfile
 import os
 from pathlib import Path
-
-
 class CodecAugmentation:
     """
     On-the-fly codec augmentation for training.
-    
     Applies random codec transformations to spectrograms during training.
     """
-    
     def __init__(self,
                  codec_simulator=None,
                  preprocessor=None,
@@ -28,7 +22,6 @@ class CodecAugmentation:
                  bitrates: dict = None):
         """
         Initialize codec augmentation.
-        
         Args:
             codec_simulator: CodecSimulator instance
             preprocessor: AudioPreprocessor instance
@@ -39,105 +32,69 @@ class CodecAugmentation:
         self.codec_simulator = codec_simulator
         self.preprocessor = preprocessor
         self.augmentation_prob = augmentation_prob
-        
-        # Default codecs and bitrates
         self.codecs = codecs or ['aac', 'opus', 'mp3']
         self.bitrates = bitrates or {
             'aac': [128, 64, 32],
             'opus': [64, 32, 24],
             'mp3': [128, 64, 32]
         }
-    
     def __call__(self, spectrogram, audio_path=None):
         """
         Apply random codec augmentation.
-        
         Args:
             spectrogram: Input spectrogram (not used if audio_path provided)
             audio_path: Path to original audio file
-            
         Returns:
             Augmented spectrogram
         """
-        # Skip augmentation with probability
         if random.random() > self.augmentation_prob:
             return spectrogram
-        
-        # If we have audio path, apply codec transformation
         if audio_path and self.codec_simulator and self.preprocessor:
             try:
-                # Choose random codec and bitrate
                 codec = random.choice(self.codecs)
                 bitrate = random.choice(self.bitrates[codec])
-                
-                # Apply codec transformation
                 compressed_path, _ = self.codec_simulator.apply_codec(
                     input_path=str(audio_path),
                     codec=codec,
                     bitrate=bitrate
                 )
-                
-                # Re-extract spectrogram
                 augmented_spec = self.preprocessor.process_audio(compressed_path)
-                
-                # Clean up temporary file
                 if os.path.exists(compressed_path):
                     os.remove(compressed_path)
-                
                 return augmented_spec
             except Exception as e:
-                # Fall back to original if augmentation fails
                 return spectrogram
-        
-        # If no audio path, apply simpler augmentation (spec-level)
         return self._apply_spec_augmentation(spectrogram)
-    
     def _apply_spec_augmentation(self, spectrogram):
         """
         Apply spectrogram-level augmentation to simulate codec effects.
-        
         This is a simplified version that doesn't require re-encoding.
         """
-        # Random frequency masking (simulates codec frequency cutoff)
         if random.random() < 0.3:
             mask_freq = random.randint(1, 15)
             spectrogram[:, -mask_freq:, :] *= 0.1
-        
-        # Random time masking (simulates temporal artifacts)
         if random.random() < 0.3:
             mask_time = random.randint(1, 20)
             start_t = random.randint(0, max(0, spectrogram.shape[2] - mask_time))
             spectrogram[:, :, start_t:start_t+mask_time] *= 0.1
-        
-        # Add noise (simulates codec artifacts)
         if random.random() < 0.3:
             noise = torch.randn_like(spectrogram) * 0.01
             spectrogram = spectrogram + noise
-        
         return spectrogram
-
-
 class AugmentedCNN(BaselineCNN):
     """
     Augmented CNN that uses the same architecture as baseline
     but is trained with codec augmentation.
-    
     This is primarily a marker class - the augmentation happens
     in the training loop via the CodecAugmentation transform.
     """
-    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Same architecture, different training strategy
-
-
 def create_augmented_model(config: dict) -> nn.Module:
     """
     Factory function to create augmented model.
-    
     Args:
         config: Configuration dictionary
-        
     Returns:
         Model instance (same architecture as baseline)
     """
@@ -147,25 +104,17 @@ def create_augmented_model(config: dict) -> nn.Module:
         num_classes=config.get('num_classes', 2),
         dropout=config.get('dropout', 0.3)
     )
-    
     return model
-
-
 if __name__ == '__main__':
     print("Testing Augmented CNN...")
-    
     model = AugmentedCNN(n_mels=128, num_classes=2)
-    
     dummy_input = torch.randn(4, 1, 128, 256)
     output = model(dummy_input)
-    
-    print(f"✓ Augmented model initialized")
+    print(f" Augmented model initialized")
     print(f"  Architecture: Same as baseline")
     print(f"  Training: Uses codec augmentation")
     print(f"  Parameters: {sum(p.numel() for p in model.parameters()):,}")
-    
-    # Test augmentation
-    print("\n✓ Testing spectrogram-level augmentation...")
+    print("\n Testing spectrogram-level augmentation...")
     aug = CodecAugmentation(augmentation_prob=1.0)
     test_spec = torch.randn(1, 128, 256)
     aug_spec = aug(test_spec)

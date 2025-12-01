@@ -1,38 +1,27 @@
-"""
+utf-8"""
 Quick Training Script with Auto-Downloading Sample Dataset
-
 Downloads a small dataset and trains quickly for demo purposes.
 """
-
 import os
 import sys
 import urllib.request
 import zipfile
 from pathlib import Path
 import shutil
-
-# Add parent to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-
-
 def download_sample_dataset():
     """Download a small sample dataset for quick training."""
     print("="*60)
     print("Downloading Sample Dataset for Quick Training")
     print("="*60)
-    
     data_dir = Path("data/raw/quick_train")
     data_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Create simple fake dataset using TTS samples
     print("\nCreating sample dataset structure...")
-    
     real_dir = data_dir / "real"
     fake_dir = data_dir / "fake"
     real_dir.mkdir(exist_ok=True)
     fake_dir.mkdir(exist_ok=True)
-    
-    print("\n📥 To train quickly, please add audio files:")
+    print("\n To train quickly, please add audio files:")
     print(f"\n1. Put 10-20 REAL voice recordings in:")
     print(f"   {real_dir.absolute()}")
     print(f"\n2. Put 10-20 FAKE/AI-generated voices in:")
@@ -42,10 +31,7 @@ def download_sample_dataset():
     print("- Use ElevenLabs, Play.ht, or any online TTS")
     print("- Record yourself with different filters")
     print("- Just copy real audio to both folders for testing (won't learn, but will run)")
-    
     return data_dir
-
-
 def create_simple_config(data_dir: Path):
     """Create a minimal config for quick training."""
     config = {
@@ -70,8 +56,8 @@ def create_simple_config(data_dir: Path):
             'max_duration': 4.0
         },
         'training': {
-            'batch_size': 4,  # Small batch for CPU
-            'epochs': 10,  # Just a few epochs for demo
+            'batch_size': 4,  
+            'epochs': 10,  
             'learning_rate': 0.001,
             'weight_decay': 0.0001,
             'early_stopping_patience': 5,
@@ -79,18 +65,13 @@ def create_simple_config(data_dir: Path):
             'scheduler': 'reduce_on_plateau'
         }
     }
-    
     import yaml
     config_path = Path('experiments/configs/quick_demo.yaml')
     config_path.parent.mkdir(parents=True, exist_ok=True)
-    
     with open(config_path, 'w') as f:
         yaml.dump(config, f, default_flow_style=False)
-    
-    print(f"\n✓ Created config: {config_path}")
+    print(f"\n Created config: {config_path}")
     return config_path
-
-
 def count_audio_files(directory: Path) -> int:
     """Count audio files in directory."""
     audio_extensions = {'.wav', '.mp3', '.opus', '.m4a', '.flac', '.ogg'}
@@ -99,31 +80,20 @@ def count_audio_files(directory: Path) -> int:
         for ext in audio_extensions:
             count += len(list(directory.glob(f'*{ext}')))
     return count
-
-
 def main():
-    print("\n🚀 Quick Training Setup")
-    
-    # Download/create dataset structure
+    print("\n Quick Training Setup")
     data_dir = download_sample_dataset()
-    
-    # Check if files exist
     real_count = count_audio_files(data_dir / 'real')
     fake_count = count_audio_files(data_dir / 'fake')
-    
-    print(f"\n📊 Current dataset:")
+    print(f"\n Current dataset:")
     print(f"   Real audio files: {real_count}")
     print(f"   Fake audio files: {fake_count}")
-    
     if real_count < 5 or fake_count < 5:
         print("\n⚠️  Need at least 5 files in each folder to train!")
         print("\nQuick option: Use the same audio file in both folders just to test")
         print("(The model won't learn anything useful, but you can test the pipeline)")
         return
-    
-    # Create config
     config_path = create_simple_config(data_dir)
-    
     print("\n" + "="*60)
     print("Ready to Train!")
     print("="*60)
@@ -134,7 +104,5 @@ def main():
     print("\nOr use the simplified trainer:")
     print(f"  ./run.sh python scripts/quick_train.py")
     print("="*60)
-
-
 if __name__ == '__main__':
     main()

@@ -1,6 +1,6 @@
 # ⚡ Everything is Ready!
 
-## ✅ What's Done
+##  What's Done
 
 - Virtual environment created and activated
 - All Python dependencies installed (PyTorch, Gradio, etc.)
@@ -8,7 +8,7 @@
 - 3 model architectures ready
 - Interactive demo built
 
-## 🎯 Quick Commands
+##  Quick Commands
 
 ```bash
 # Activate venv (do this first in each new terminal)
@@ -34,13 +34,13 @@ brew install ffmpeg
 
 Then everything will work!
 
-## 📚 Documentation
+##  Documentation
 
 - [QUICKSTART.md](file:///Users/aryaman/Desktop/Projects/audio-deepfake-detector/QUICKSTART.md) - Detailed getting started guide
 - [README.md](file:///Users/aryaman/Desktop/Projects/audio-deepfake-detector/README.md) - Full project documentation
 - [walkthrough.md](file:///Users/aryaman/.gemini/antigravity/brain/c58ebace-b728-437d-ba96-ac8157c09301/walkthrough.md) - Complete system overview
 
-## 🚀 Recommended Next Steps
+##  Recommended Next Steps
 
 1. Install ffmpeg: `brew install ffmpeg`
 2. Run quickstart: `./run.sh python scripts/quickstart.py`
@@ -50,4 +50,4 @@ Then everything will work!
 
 **Project Location**: `/Users/aryaman/Desktop/Projects/audio-deepfake-detector`
 
-Have fun! 🎉
+Have fun! 

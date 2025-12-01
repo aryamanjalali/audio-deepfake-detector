@@ -1,6 +1,6 @@
 ---
 title: Audio Deepfake Detector
-emoji: 🎙️
+emoji: ️
 colorFrom: red
 colorTo: orange
 sdk: gradio

@@ -1,8 +1,8 @@
-# 🎯 Quick Start Guide
+#  Quick Start Guide
 
 Everything is now ready to use! Just follow these simple steps:
 
-## 1. Setup (First Time Only - Already Done! ✅)
+## 1. Setup (First Time Only - Already Done! )
 
 The virtual environment is set up and all dependencies are installed.
 

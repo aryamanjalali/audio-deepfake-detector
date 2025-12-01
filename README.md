@@ -2,7 +2,7 @@
 
 A research-grade system for detecting audio deepfakes that have been compressed through real-world channels (WhatsApp, Instagram, TikTok, phone calls). This project evaluates detector robustness under realistic codec pipelines and implements techniques to improve it.
 
-## 🎯 Project Highlights
+##  Project Highlights
 
 - **Multi-Dataset Evaluation**: Trained and tested on ASVspoof 2019/2021, WaveFake, and FakeAVCeleb
 - **Real-World Robustness**: Simulates 10+ compression scenarios (AAC, Opus, MP3 at various bitrates)
@@ -12,7 +12,7 @@ A research-grade system for detecting audio deepfakes that have been compressed 
   - Fine-tuned wav2vec2 (transfer learning)
 - **Public Demo**: Interactive Gradio app deployed on HuggingFace Spaces
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Installation
 
@@ -73,7 +73,7 @@ python app.py
 
 Visit `http://localhost:7860` to use the interface.
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 audio-deepfake-detector/
@@ -106,18 +106,18 @@ audio-deepfake-detector/
 └── tests/                      # Unit tests
 ```
 
-## 🔬 Research Questions Addressed
+##  Research Questions Addressed
 
 1. **How fragile are audio deepfake detectors to realistic re-encoding?**
 2. **Which codecs and bitrates are most harmful (or helpful) for detection?**
 3. **Does training with realistic channel simulations improve robustness?**
 4. **Are pretrained audio representations more resilient to compression?**
 
-## 📊 Key Findings
+##  Key Findings
 
 *(To be populated after experiments)*
 
-## 🎨 Demo Features
+##  Demo Features
 
 - Upload audio files for deepfake detection
 - Simulate real-world compression (WhatsApp, Instagram, Phone, Custom)
@@ -125,7 +125,7 @@ audio-deepfake-detector/
 - Visualize spectrogram and prediction confidence
 - Educational explanations of results
 
-## 🔧 Technical Details
+##  Technical Details
 
 ### Codec Simulation Pipeline
 
@@ -143,15 +143,15 @@ audio-deepfake-detector/
 
 **wav2vec2**: HuggingFace wav2vec2-base with fine-tuned classification head
 
-## 📈 Results Summary
+##  Results Summary
 
 *(Results table to be added after experiments)*
 
-## 🚢 Deployment
+##  Deployment
 
 The demo is deployed on HuggingFace Spaces: [Link TBD]
 
-## 📝 Citation
+##  Citation
 
 If you use this work, please cite:
 
@@ -159,11 +159,11 @@ If you use this work, please cite:
 [Your citation format]
 ```
 
-## 📄 License
+##  License
 
 MIT License (or your preferred license)
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - ASVspoof Challenge organizers
 - WaveFake dataset creators
